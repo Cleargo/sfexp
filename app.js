@@ -18,6 +18,30 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+//DB Connection
+var mysql = require('mysql');
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "lkk789",
+  database: "sfexp"
+});
+
+con.connect(function(err) {
+  if (err) {
+    console.log('connecting error');
+    return;
+  }
+  console.log('connecting success');
+});
+//DB state
+app.use(function(req, res, next) {
+  req.con = con;
+  next();
+});
+
+//Fuelsdk
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
